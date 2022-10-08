@@ -2,6 +2,7 @@
   margin: auto;
   max-width: 70rem;
   width: 90%;
+  margin-bottom: 1rem;
 }
 .fileInputWrapper {
   border: 4px dashed grey;

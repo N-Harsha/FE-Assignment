@@ -57,6 +57,16 @@ const fileProcessor = async (file) => {
         finalDataModel[item.name]["All"].deal = batchObj[item.batch].deal;
       }
 
+      //max MRP and Rate
+      finalDataModel[item.name]["All"].mrp = Math.max(
+        finalDataModel[item.name]["All"].mrp,
+        batchObj[item.batch].mrp
+      );
+      finalDataModel[item.name]["All"].rate = Math.max(
+        finalDataModel[item.name]["All"].rate,
+        batchObj[item.batch].rate
+      );
+
       //aggrigate  exp
       if (
         Date.parse(finalDataModel[item.name]["All"].exp) >

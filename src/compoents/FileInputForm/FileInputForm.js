@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import ErrorModal from "./UI/ErrorModal";
+import ErrorModal from "../UI/ErrorModal";
 import classes from "./FileInputForm.module.css";
 
 const FileInputForm = (props) => {
@@ -15,6 +15,8 @@ const FileInputForm = (props) => {
   };
 
   const onChangeHandler = (event) => {
+    if (event.target.files.length === 0) return;
+
     const file = event.target.files[0];
 
     const ext = file.name.split(".").pop();
