@@ -30,15 +30,18 @@ function PaginatedItems(props) {
       {currentItems !== null && (
         <ProductsTable products={Object.fromEntries(currentItems)} />
       )}
-      <div className={`${classes.pagination} text-center`}>
+      <div className="text-center">
         <ReactPaginate
           breakLabel="..."
-          nextLabel="next >"
+          nextLabel=">>"
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
           pageCount={pageCount}
-          previousLabel="< previous"
+          previousLabel="<<"
           renderOnZeroPageCount={null}
+          containerClassName={`${classes.pagination}`}
+          subContainerClassName={"pages pagination"}
+          activeClassName={classes.active}
         />
       </div>
     </>

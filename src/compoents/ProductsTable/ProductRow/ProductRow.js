@@ -4,7 +4,7 @@ const BatchOptions = (props) => {
   return (
     <select
       onChange={props.onBatchChange}
-      style={{ width: "50%", backgroundColor: "#a1eb8f" }}
+      style={{ width: "50%", backgroundColor: "#dff5d6" }}
     >
       {props.batches.map((batch) => (
         <option key={batch} value={batch}>
