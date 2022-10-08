@@ -1,0 +1,26 @@
+.formControl {
+  margin: auto;
+  max-width: 70rem;
+  width: 90%;
+}
+.fileInputWrapper {
+  border: 4px dashed grey;
+  margin: 10px 0;
+}
+
+.fileInputWrapper input[type="file"] {
+  display: none;
+}
+
+.fileInputWrapper label {
+  width: 100%;
+  padding: 2.5rem;
+  font-size: 2rem;
+  background-color: #9b9b9b62;
+}
+
+p {
+  font-size: 20px;
+  /* font-style: italic; */
+  font-weight: bold;
+}

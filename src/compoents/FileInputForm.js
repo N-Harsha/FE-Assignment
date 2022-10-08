@@ -1,92 +1,74 @@
-import { useState } from "react";
-import { read, utils } from "xlsx";
+import { useRef, useState } from "react";
+import ErrorModal from "./UI/ErrorModal";
+import classes from "./FileInputForm.module.css";
 
-const FileInputForm = () => {
+const FileInputForm = (props) => {
   const [file, setFile] = useState(null);
-  const onSubmitHandler = (event) => {
+  const [isValidFile, setIsValidFile] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const fileInputRef = useRef();
+
+  const onSubmit = (event) => {
     event.preventDefault();
-    console.log(file);
+    props.onSubmitHandler(file);
+    setIsSubmitted(true);
   };
-  const onChangeHandler = async (event) => {
-    //get data as an ArrayBuffer
-    const [file] = event.target.files;
-    const bufferData = await file.arrayBuffer();
 
-    //parse and load first workSheet
-    const workBook = read(bufferData);
-    const workSheet = workBook.Sheets[workBook.SheetNames[0]];
+  const onChangeHandler = (event) => {
+    const file = event.target.files[0];
 
-    //transformation
-    const jsonData = utils.sheet_to_json(workSheet, {
-      raw: false,
-      dateNF: "dd/mm/yyyy",
-    });
-    const finalDataModel = {};
-    for (const item of jsonData) {
-      if (!finalDataModel[item["name"]]) {
-        const batchObj = {};
-        batchObj[item["batch"]] = {
-          stock: +item.stock,
-          deal: +item.deal,
-          mrp: +item.mrp,
-          rate: +item.rate,
-          exp: item.exp,
-          free: +item.free,
-        };
-        batchObj["All"] = {
-          stock: +item.stock,
-          deal: +item.deal,
-          mrp: +item.mrp,
-          rate: +item.rate,
-          exp: item.exp,
-          free: +item.free,
-        };
-        finalDataModel[item.name] = { ...batchObj };
-      } else {
-        const batchObj = {};
-        batchObj[item.batch] = {
-          stock: +item.stock,
-          deal: +item.deal,
-          mrp: +item.mrp,
-          rate: +item.rate,
-          exp: item.exp,
-          free: +item.free,
-        };
-
-        //summation of the stock
-        finalDataModel[item.name]["All"].stock += +item.stock;
-
-        //aggrigate free and deal
-        if (
-          finalDataModel[item.name]["All"].free /
-            finalDataModel[item.name]["All"].deal >
-          batchObj[item.batch].free / batchObj[item.batch].deal
-        ) {
-          finalDataModel[item.name]["All"].free = batchObj[item.batch].free;
-          finalDataModel[item.name]["All"].deal = batchObj[item.batch].deal;
-        }
-
-        //aggrigate  exp
-        if (
-          Date.parse(finalDataModel[item.name]["All"].exp) >
-          Date.parse(batchObj[item.batch].exp)
-        )
-          finalDataModel[item.name]["All"].exp = batchObj[item.batch].exp;
-
-        finalDataModel[item.name] = {
-          ...finalDataModel[item.name],
-          ...batchObj,
-        };
-      }
+    const ext = file.name.split(".").pop();
+    if (ext === "xls" || ext === "xlsx") {
+      setIsValidFile(true);
+      setFile(file);
+      setIsSubmitted(false);
+    } else {
+      setFile(null);
+      setIsValidFile(false);
+      setIsSubmitted(false);
+      fileInputRef.current.value = "";
+      return;
     }
-    console.log(finalDataModel);
   };
+
+  const onConfirm = () => {
+    setIsValidFile(true);
+  };
+
   return (
-    <form onSubmit={onSubmitHandler}>
-      <label htmlFor="file-upload">File Upload </label>
-      <input id="file-upload" type="file" onChange={onChangeHandler} />
-      <input type="submit" />
-    </form>
+    <>
+      {!isValidFile && (
+        <ErrorModal
+          title="Invalid Input file"
+          message="input file must be of type either of xls or xlsx"
+          onConfirm={onConfirm}
+        />
+      )}
+      <form onSubmit={onSubmit} className={classes.formControl}>
+        <div className={classes.fileInputWrapper}>
+          <label htmlFor="file-upload" className="text-center">
+            Upload a File
+            <br />
+            {file !== null && <p>{file.name}</p>}
+            <input
+              id="file-upload"
+              type="file"
+              onChange={onChangeHandler}
+              ref={fileInputRef}
+            />
+          </label>
+        </div>
+        <div className="text-center">
+          <input
+            type="submit"
+            className={`btn ${
+              isSubmitted ? "btn-success" : "btn-primary"
+            } btn-lg`}
+            disabled={file === null || isSubmitted === true}
+          />
+        </div>
+      </form>
+    </>
   );
 };
 export default FileInputForm;
