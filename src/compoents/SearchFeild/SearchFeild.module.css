@@ -1,0 +1,6 @@
+.search input {
+  max-width: 70rem;
+  min-width: 50rem;
+  padding: 7px;
+  margin: 10px;
+}
