@@ -3,4 +3,6 @@
   min-width: 50rem;
   padding: 7px;
   margin: 10px;
+  border-radius: 10px;
+  border-width: 3px;
 }

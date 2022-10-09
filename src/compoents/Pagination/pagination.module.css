@@ -1,4 +1,4 @@
-.pagination{
+.pagination {
   list-style: none;
   display: inline-block;
 }
@@ -7,13 +7,15 @@
   float: left;
   text-decoration: none;
   padding: 8px 16px;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .pagination li.active {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
-.pagination li:hover:not(.active) {background-color: #ddd;}
-
-
+.pagination li:hover:not(.active) {
+  background-color: #ddd;
+}

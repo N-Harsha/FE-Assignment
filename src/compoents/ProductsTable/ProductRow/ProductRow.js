@@ -27,7 +27,7 @@ const ProductRow = (props) => {
   };
 
   return (
-    <tr>
+    <tr style={{ backgroundColor: "white" }}>
       <th scope="col">{props.productName}</th>
       <td>
         <BatchOptions batches={batches} onBatchChange={onBatchChange} />
