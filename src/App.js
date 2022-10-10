@@ -40,7 +40,7 @@ function App() {
         <>
           <SearchFeild onChange={onSearchTextChangeHandler} />
           {filteredProducts !== null && (
-            <PaginatedItems productsData={filteredProducts} itemsPerPage={20} />
+            <PaginatedItems productsData={filteredProducts} itemsPerPage={15} />
           )}
         </>
       )}
