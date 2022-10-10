@@ -11,7 +11,7 @@ const SearchFeild = (props) => {
           onChange={props.onChange}
         />
         <label htmlFor="search">
-          <img src={SearchIcon} />
+          <img src={SearchIcon} alt="search icon" />
         </label>
       </div>
     </div>
